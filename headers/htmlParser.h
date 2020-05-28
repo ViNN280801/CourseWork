@@ -16,10 +16,10 @@ void findTemperature(GumboNode* node){
             GumboNode* textBetweenTagB = (GumboNode*)(node->v.element.children.data[0]);
             if(textBetweenTagB->type == GUMBO_NODE_TEXT || textBetweenTagB->type != GUMBO_NODE_WHITESPACE){
                 if(counter % 2 == 0){
-                    printf("min = %s\n", textBetweenTagB->v.text.text);
+                    printf("max = %s\n", textBetweenTagB->v.text.text);
                 }    
                 else 
-                    printf("max = %s\n", textBetweenTagB->v.text.text);
+                    printf("min = %s\n", textBetweenTagB->v.text.text);
 
                 counter++;
             }
@@ -29,7 +29,7 @@ void findTemperature(GumboNode* node){
     for(int i = 0; i < (child->length); i++){
         findTemperature((GumboNode*)(child->data[i]));
 
-        if(counter == 20){
+        if(counter == 21){
             i = child->length;
         }
     }
@@ -58,7 +58,6 @@ void findLabel(GumboNode* node, const char* lostLabel){
     for(unsigned int i = 0; i < (child->length); i++){
         findLabel((GumboNode*)(child->data[i]), lostLabel);
         if(counter == 7){
-            counter = 0;
             i = child->length;
         }
     }
@@ -157,6 +156,7 @@ int htmlParse(){
 
     free(buffer);
 
+    char* curDay;
     const char* curDay = "weather__content_tab-day";
     const char* lostWeekDay = "weather__content_tab_a";
     const char* lostDay = "weather__content_tab-date day_red";
