@@ -17,7 +17,7 @@ int htmlThief(int argc, char* argv[]){
     if(argc < 2){
         printf("Usage: %s<URL>\n", argv[0]);
 
-        return EXIT_FAILURE;
+        return (EXIT_FAILURE);
     }
 
     curl_global_init(CURL_GLOBAL_ALL); // flag CURL_GLOBAL_ALL - 
