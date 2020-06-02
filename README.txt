@@ -1,1 +1,2 @@
-For compile: gcc -Wall -g -o 'something' 'something.c' -lcurl -lgumbo 
+For compile: gcc -Wall -g -o 'your_executive_file' 'your_code_file.c' -lcurl -lgumbo
+ 
