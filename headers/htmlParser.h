@@ -28,7 +28,7 @@ void createFile(FILE* csv, const char* csvFileName){
         exit(EXIT_FAILURE);
     }
 
-    fclose((csv));
+    fclose(csv);
 }
 
 void writeDataInCSV(FILE* csv, const char* csvFileName, struct sinoptik weather[]){
