@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
     FILE* pageFile;
 
     if(argc < 2){
-        printf("Usage: %s<URL>\n", argv[0]);
+        printf("Usage: %s<URL>\n\n", argv[0]);
 
         return EXIT_FAILURE;
     }
