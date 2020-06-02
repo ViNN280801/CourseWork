@@ -59,7 +59,7 @@ void findLabel(GumboNode* node, const char* lostLabel){
         findLabel((GumboNode*)(child->data[i]), lostLabel);
         if(counter == 7){
             counter = 0;
-            i = (child->length);
+            i = child->length;
         }
     }
 }
