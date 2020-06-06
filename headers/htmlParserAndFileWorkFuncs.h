@@ -404,12 +404,16 @@ void findTemperature(GumboNode* node){
             GumboNode* textBetweenTagB = (GumboNode*)(node->v.element.children.data[0]);
         if(textBetweenTagB->type == GUMBO_NODE_TEXT || textBetweenTagB->type != GUMBO_NODE_WHITESPACE){
             if(z % 2 != 0){
-                printf("max = %s\n", textBetweenTagB->v.text.text);
+                #ifdef PRNT
+                    printf("max = %s\n", textBetweenTagP->v.text.text);
+                #endif
                 weather[z].temperature = (char*)calloc(strlen(textBetweenTagB->v.text.text), sizeof(char*));
                 strcpy(weather[z].temperature, (char*)textBetweenTagB->v.text.text);
             }
             else{
-                printf("min = %s\n", textBetweenTagB->v.text.text);
+                #ifdef PRNT
+                    printf("min = %s\n", textBetweenTagP->v.text.text);
+                #endif
                 weather[z].temperature = (char*)calloc(strlen(textBetweenTagB->v.text.text), sizeof(char*));
                 strcpy(weather[z].temperature, (char*)textBetweenTagB->v.text.text);
             }
@@ -442,7 +446,9 @@ void findLabel(GumboNode* node, const char* lostLabel){
             char* tmp = (char*)calloc(strlen(textBetweenTagLabel->v.text.text), sizeof(char*));
 
             strcpy(tmp, textBetweenTagLabel->v.text.text);
-            printf("%s\n", textBetweenTagLabel->v.text.text);
+            #ifdef PRNT
+                printf("%s\n", textBetweenTagP->v.text.text);
+            #endif
 
             if(tmp[0] == '\n')
                 tmp[0] = ' ';
@@ -478,7 +484,9 @@ void findWeekDay(GumboNode* node, const char* lostWeekDay, const char* curDay){
         GumboNode* textBetweenTagP = (GumboNode*)(node->v.element.children.data[0]);
                 
         if(textBetweenTagP->type == GUMBO_NODE_TEXT || textBetweenTagP->type != GUMBO_NODE_WHITESPACE){
-            printf("%s\n", textBetweenTagP->v.text.text);
+            #ifdef PRNT
+                printf("%s\n", textBetweenTagP->v.text.text);
+            #endif
             weather[a].weekDay = (char*)calloc(strlen(textBetweenTagP->v.text.text), sizeof(char*));
 
         if(weather[a].weekDay != NULL && (a == 0 || a == 1)){
@@ -494,7 +502,9 @@ void findWeekDay(GumboNode* node, const char* lostWeekDay, const char* curDay){
             GumboNode* textBetweenTagA = (GumboNode*)(node->v.element.children.data[0]);
                 
             if(textBetweenTagA->type == GUMBO_NODE_TEXT || textBetweenTagA->type != GUMBO_NODE_WHITESPACE){
-                printf("%s\n", textBetweenTagA->v.text.text);
+                #ifdef PRNT
+                    printf("%s\n", textBetweenTagP->v.text.text);
+                #endif
                 weather[k+a].weekDay = (char*)calloc(strlen(textBetweenTagA->v.text.text), sizeof(char*));
                 strcpy(weather[k+a].weekDay, textBetweenTagA->v.text.text);
             }
@@ -525,7 +535,9 @@ void findDate(GumboNode* node, const char* lost){
         GumboNode* textBetweenTagP = (GumboNode*)(node->v.element.children.data[0]);
                 
         if(textBetweenTagP->type == GUMBO_NODE_TEXT || textBetweenTagP->type != GUMBO_NODE_WHITESPACE){
-            printf("%s\n", textBetweenTagP->v.text.text);
+            #ifdef PRNT
+                printf("%s\n", textBetweenTagP->v.text.text);
+            #endif
             weather[t].date = (char*)calloc(strlen(textBetweenTagP->v.text.text), sizeof(char*));
             strcpy(weather[t].date, textBetweenTagP->v.text.text);
         }
@@ -550,7 +562,9 @@ void findMonth(GumboNode* node, const char* lost){
             GumboNode* textBetweenTagP = (GumboNode*)(node->v.element.children.data[0]);
                 
             if(textBetweenTagP->type == GUMBO_NODE_TEXT || textBetweenTagP->type != GUMBO_NODE_WHITESPACE){
-                printf("%s\n", textBetweenTagP->v.text.text);
+                #ifdef PRNT
+                    printf("%s\n", textBetweenTagP->v.text.text);
+                #endif
                 weather[f].month = (char*)calloc(strlen(textBetweenTagP->v.text.text), sizeof(char*));
                 strcpy(weather[f].month, textBetweenTagP->v.text.text);
             }
@@ -610,9 +624,7 @@ int htmlParse(){
 
     free(copy);
     fclose(fin);
-
-    printf("\n>>> pause <<<\n");
-    getchar();
+    
     system("clear");
 
     return EXIT_SUCCESS;

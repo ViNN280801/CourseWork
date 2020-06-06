@@ -1,4 +1,5 @@
 #include"htmlParserAndFileWorkFuncs.h"
+#include"encodingCsv.h"
 
 #define BUFF_SIZE 256
 
@@ -48,7 +49,10 @@ void showMenu(){
                     printf("3. Add record in random line\n");
                     printf("3. Modify record\n");
                     printf("4. Delete record\n");
-                    printf("5. Exit from program\n");
+                    printf("\033[0;36m");
+                    printf("5. Encode the file\n");
+                    printf("\033[0m");
+                    printf("6. Exit from program\n");
 
                     printf("Your choosing: ");
                     scanf("%d", &choose);
@@ -77,6 +81,10 @@ void showMenu(){
                         goto choosing;
                         break;
                     case 5:
+                        system("clear");
+                        encodeFile();
+                        break;
+                    case 6:
                         system("clear");
                         exit(EXIT_SUCCESS);
                         goto choosing;
