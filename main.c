@@ -1,5 +1,5 @@
 #include"headers/htmlThief.h"
-#include"headers/htmlParser.h"
+#include"headers/menu.h"
 
 int main(){
     printf("*** *** sinoptik.com scrapping... *** ***\n\n");
@@ -8,6 +8,7 @@ int main(){
     getchar();
     system("clear");
     htmlParse();
+    showMenu();
 
     return EXIT_SUCCESS;
 }
