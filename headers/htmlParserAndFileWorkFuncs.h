@@ -379,9 +379,11 @@ void deleteRecord(FILE* csv, const char* csvFileName){
                 fileCopy[i] = '\0';
                 fputc(fileCopy[i], csv);
             }
-                
+
             fseek(csv, newSize2, SEEK_SET);
             fputs("|", csv);
+
+            printf("Data deleted successfully\n");
         }
         else{
             printf("Error: can't delete data\n");
