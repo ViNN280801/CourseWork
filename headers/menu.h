@@ -47,12 +47,12 @@ void showMenu(){
                     printf("1. Create file\n");
                     printf("2. Add record in end of file\n");
                     printf("3. Add record in random line\n");
-                    printf("3. Modify record\n");
-                    printf("4. Delete record\n");
+                    printf("4. Modify record\n");
+                    printf("5. Delete record\n");
                     printf("\033[0;36m");
-                    printf("5. Encode the file\n");
+                    printf("6. Encode the file\n");
                     printf("\033[0m");
-                    printf("6. Exit from program\n");
+                    printf("7. Exit from program\n");
 
                     printf("Your choosing: ");
                     scanf("%d", &choose);
@@ -77,14 +77,18 @@ void showMenu(){
                         break;
                     case 4:
                         system("clear");
-                        deleteRecord(csv, csvFileName);
+                        modifiedRecord(csv, csvFileName);
                         goto choosing;
                         break;
                     case 5:
                         system("clear");
-                        encodeFile();
+                        deleteRecord(csv, csvFileName);
                         break;
                     case 6:
+                        system("clear");
+                        encodeFile();
+                        break;
+                    case 7:
                         system("clear");
                         exit(EXIT_SUCCESS);
                         goto choosing;

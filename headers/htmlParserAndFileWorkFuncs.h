@@ -296,7 +296,7 @@ void addRecordInPosition(FILE* csv, const char* csvFileName){
     fclose(csv);
 }
 
-void modifiedRecord(FILE* csv, const char* csvFileName, int num, int size){
+void modifiedRecord(FILE* csv, const char* csvFileName){
     char* fileCopy = readDataFromCSV(csv, csvFileName);
     long sizeOfFileCopy = strlen(fileCopy);
     int numberOfTransferCh = 0, whereIsN = 0, whereIsNVersion2 = 0;
