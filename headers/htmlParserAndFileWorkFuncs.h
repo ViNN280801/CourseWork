@@ -65,7 +65,12 @@ char* readDataFromCSV(FILE* csv, const char* csvFileName){
 
         copy = (char*)calloc(fileSize, sizeof(char));
 
-        fread(copy, sizeof(char), fileSize, csv);
+        for(int i = 0; i < fileSize; i++){
+            copy[i] = fgetc(csv);
+
+            if(copy[i] == '\0')
+                copy[i] = '.';
+        }
 
         for(int i = 0; i < fileSize; i++){
             if(copy[i] == ',')
@@ -256,7 +261,8 @@ void addRecordInPosition(FILE* csv, const char* csvFileName){
                                     fseek(csv, newStringSize + fpos2, SEEK_SET);
 
                                     for(int k = size; k < newSize; k++){
-                                        fprintf(csv, "%c", oldFileCopy[k]);
+                                        if(k < bytes)
+                                            fprintf(csv, "%c", oldFileCopy[k]);
                                     }
                                 }
                                 continue;
@@ -342,59 +348,54 @@ void deleteRecord(FILE* csv, const char* csvFileName){
     long sizeOfFileCopy = strlen(fileCopy);
     int numberOfTransferCh = 0;
     int deleteLine = 0;
-    char* buf = (char*)calloc(BUFF_SIZE, sizeof(char));
+    char* buf = NULL;
     int counter = 0, newSize = 0, newSize2 = 0;
 
-    if(buf != NULL){
-        printf("Enter line which you want to delete: ");
-        scanf("%d", &deleteLine);
+    printf("Enter line which you want to delete: ");
+    scanf("%d", &deleteLine);
         
-        for(int i = 0; i < sizeOfFileCopy; i++){
-            if(fileCopy[i] == '\n'){
-                numberOfTransferCh++;
+    for(int i = 0; i < sizeOfFileCopy; i++){
+        if(fileCopy[i] == '\n'){
+            numberOfTransferCh++;
+        }
+    }
+
+    for(int i = 0; i < numberOfTransferCh; i++){
+        if(deleteLine == i){
+            for(int j = 0; j < sizeOfFileCopy; j++){
+                if(fileCopy[j] == '\n'){
+                    counter++;
+                    if(counter == deleteLine)
+                        newSize = j;
+                }                        
             }
-        }
+        }           
+    }
 
-        for(int i = 0; i < numberOfTransferCh; i++){
-            if(deleteLine == i){
-                for(int j = 0; j < sizeOfFileCopy; j++){
-                    if(fileCopy[j] == '\n'){
-                        counter++;
-                        if(counter == deleteLine)
-                            newSize = j;
-                    }                        
-                }
-            }           
-        }
+    for(int i = newSize + 1; i < newSize + 100; i++){
+        if(fileCopy[i] == '\n')
+            newSize2 = i;
+    }
 
-        for(int i = newSize + 1; i < newSize + 100; i++){
-            if(fileCopy[i] == '\n')
-                newSize2 = i;
-        }
-
-        if((csv = fopen(csvFileName, "r+")) != NULL){
-            fseek(csv, newSize + 1, SEEK_SET);
+    if((csv = fopen(csvFileName, "r+")) != NULL){
+        fseek(csv, newSize + 1, SEEK_SET);
                 
-            for(int i = newSize + 1; i < newSize2; i++){
-                fileCopy[i] = '\0';
-                fputc(fileCopy[i], csv);
-            }
-
-            fseek(csv, newSize2, SEEK_SET);
-            fputs("|", csv);
-
-            printf("Data deleted successfully\n");
+        for(int i = newSize + 1; i < newSize2; i++){
+            fileCopy[i] = '\0';
+            fputc(fileCopy[i], csv);
         }
-        else{
-            printf("Error: can't delete data\n");
-            exit(EXIT_FAILURE);
-        }
-        fclose(csv);
+
+        fseek(csv, newSize2 - 1, SEEK_SET);
+        fputc('\0', csv);
+
+        printf("Data deleted successfully\n");
     }
     else{
-        printf("Error: calloc returns NULL pointer\n");
+        printf("Error: can't delete data\n");
         exit(EXIT_FAILURE);
     }
+    free(buf);
+    fclose(csv);
 }
 
 void findTemperature(GumboNode* node){

@@ -45,14 +45,15 @@ void showMenu(){
                     counter++;
 
                     printf("1. Create file\n");
-                    printf("2. Add record in end of file\n");
-                    printf("3. Add record in random line\n");
-                    printf("4. Modify record\n");
-                    printf("5. Delete record\n");
+                    printf("2. Output info to terminal\n");
+                    printf("3. Add record in end of file\n");
+                    printf("4. Add record in random line\n");
+                    printf("5. Modify record\n");
+                    printf("6. Delete record\n");
                     printf("\033[0;36m");
-                    printf("6. Encode the file\n");
+                    printf("7. Encode the file\n");
                     printf("\033[0m");
-                    printf("7. Exit from program\n");
+                    printf("8. Exit from program\n");
 
                     printf("Your choosing: ");
                     scanf("%d", &choose);
@@ -67,28 +68,62 @@ void showMenu(){
                         break;
                     case 2:
                         system("clear");
-                        addRecord(csv, csvFileName);
-                        goto choosing;
+                        char* copy = NULL;
+                        long fileSize = 0L;
+
+                        if((csv = fopen(csvFileName, "r"))){
+                            fseek(csv, 0L, SEEK_END);
+                            fileSize = ftell(csv);
+                            fseek(csv, 0L, SEEK_SET);
+
+                            copy = (char*)calloc(fileSize, sizeof(char));
+
+                            for(int i = 0; i < fileSize; i++){
+                                copy[i] = fgetc(csv);
+
+                                if(copy[i] == '\0')
+                                    copy[i] = '.';
+                            }
+
+                            for(int i = 0; i < fileSize; i++){
+                                if(copy[i] == ',')
+                                    copy[i] = '\t';
+                                if(copy[i] != '.'){
+                                    printf("%c", copy[i]);
+                                }
+                            }
+                            free(copy);
+                        }
+                        else{
+                            printf("Error: Can't read file\n");
+                        }
+                        fclose(csv);
+
                         break;
                     case 3:
                         system("clear");
-                        addRecordInPosition(csv, csvFileName);
+                        addRecord(csv, csvFileName);
                         goto choosing;
                         break;
                     case 4:
                         system("clear");
-                        modifiedRecord(csv, csvFileName);
+                        addRecordInPosition(csv, csvFileName);
                         goto choosing;
                         break;
                     case 5:
                         system("clear");
-                        deleteRecord(csv, csvFileName);
+                        modifiedRecord(csv, csvFileName);
+                        goto choosing;
                         break;
                     case 6:
                         system("clear");
-                        encodeFile();
+                        deleteRecord(csv, csvFileName);
                         break;
                     case 7:
+                        system("clear");
+                        encodeFile();
+                        break;
+                    case 8:
                         system("clear");
                         exit(EXIT_SUCCESS);
                         goto choosing;
