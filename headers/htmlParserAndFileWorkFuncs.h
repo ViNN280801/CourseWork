@@ -20,7 +20,6 @@ struct sinoptik weather[BUFF_SIZE];
 
 int counter = 0, k = 0, j = 0, z = 0, a = 0;
 
-
 int size = 0;
 int modi = 0;
 
@@ -405,14 +404,14 @@ void findTemperature(GumboNode* node){
         if(textBetweenTagB->type == GUMBO_NODE_TEXT || textBetweenTagB->type != GUMBO_NODE_WHITESPACE){
             if(z % 2 != 0){
                 #ifdef PRNT
-                    printf("max = %s\n", textBetweenTagP->v.text.text);
+                    printf("max = %s\n", textBetweenTagB->v.text.text);
                 #endif
                 weather[z].temperature = (char*)calloc(strlen(textBetweenTagB->v.text.text), sizeof(char*));
                 strcpy(weather[z].temperature, (char*)textBetweenTagB->v.text.text);
             }
             else{
                 #ifdef PRNT
-                    printf("min = %s\n", textBetweenTagP->v.text.text);
+                    printf("min = %s\n", textBetweenTagB->v.text.text);
                 #endif
                 weather[z].temperature = (char*)calloc(strlen(textBetweenTagB->v.text.text), sizeof(char*));
                 strcpy(weather[z].temperature, (char*)textBetweenTagB->v.text.text);
@@ -447,7 +446,7 @@ void findLabel(GumboNode* node, const char* lostLabel){
 
             strcpy(tmp, textBetweenTagLabel->v.text.text);
             #ifdef PRNT
-                printf("%s\n", textBetweenTagP->v.text.text);
+                printf("%s\n", textBetweenTagLabel->v.text.text);
             #endif
 
             if(tmp[0] == '\n')
@@ -503,7 +502,7 @@ void findWeekDay(GumboNode* node, const char* lostWeekDay, const char* curDay){
                 
             if(textBetweenTagA->type == GUMBO_NODE_TEXT || textBetweenTagA->type != GUMBO_NODE_WHITESPACE){
                 #ifdef PRNT
-                    printf("%s\n", textBetweenTagP->v.text.text);
+                    printf("%s\n", textBetweenTagA->v.text.text);
                 #endif
                 weather[k+a].weekDay = (char*)calloc(strlen(textBetweenTagA->v.text.text), sizeof(char*));
                 strcpy(weather[k+a].weekDay, textBetweenTagA->v.text.text);
