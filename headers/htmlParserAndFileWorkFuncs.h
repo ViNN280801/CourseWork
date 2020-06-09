@@ -356,7 +356,6 @@ void deleteRecord(FILE* csv, const char* csvFileName){
     int deleteLine = 0;
     char* buf = NULL;
     int counter = 0, newSize = 0, newSize2 = 0;
-    long bufSize = 0L;
 
     printf("Enter line which you want to delete: ");
     scanf("%d", &deleteLine);
