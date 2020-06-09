@@ -25,6 +25,7 @@ void showMenu(){
             psswd = (char*)calloc(BUFF_SIZE, sizeof(char));
 
             if(psswd != NULL){ 
+                passwd:
                 printf("Password: ");
 
                 fflush(stdin);
@@ -108,12 +109,16 @@ void showMenu(){
                     case 4:
                         system("clear");
                         addRecordInPosition(csv, csvFileName);
+                        createFile(csv, csvFileName);
+                        writeDataInCSV(csv, csvFileName, weather);
                         goto choosing;
                         break;
                     case 5:
                         system("clear");
                         addRecordInPosition(csv, csvFileName);
                         modifiedRecord(csv, csvFileName);
+                        createFile(csv, csvFileName);
+                        writeDataInCSV(csv, csvFileName, weather);
                         goto choosing;
                         break;
                     case 6:
@@ -138,7 +143,7 @@ void showMenu(){
                 }
                 else{
                     printf("Wrong password\n");
-                    exit(EXIT_FAILURE);
+                    goto passwd;
                 }
             }
             else{

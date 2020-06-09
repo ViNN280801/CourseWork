@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<unistd.h>
+#include<ctype.h>
 #include<sys/stat.h>
 #include<gumbo.h>
 
@@ -36,7 +37,7 @@ void createFile(FILE* csv, const char* csvFileName){
 }
 
 void writeDataInCSV(FILE* csv, const char* csvFileName, struct sinoptik weather[]){
-    if((csv = fopen(csvFileName, "w"))){
+    if((csv = fopen(csvFileName, "r+"))){
         fprintf(csv, "Weekday, Date, Month, General characteristic, Temperature\n,,,,Min, Max");
         for(int i = 0; i < 14; i++){
             if(weather[i].weekDay != NULL && weather[i].date != NULL && weather[i].month != NULL && 
@@ -100,6 +101,10 @@ void addRecord(FILE* csv, const char* csvFileName){
         printf("How much records do you want to write? ");
         scanf("%d", &count);
 
+        fseek(csv, 0L, SEEK_END);
+        long sizeOfFile = ftell(csv);
+        fseek(csv, sizeOfFile, SEEK_SET);
+
         for(int i = 0; i < count; i++){
             printf("Enter weekday: ");
             getchar();
@@ -109,6 +114,12 @@ void addRecord(FILE* csv, const char* csvFileName){
             getchar();
             fflush(stdin);
             scanf("%[^\r\n]", weather[i].date);
+            for(int j = 0; j < strlen(weather[i].date); j++){
+                if(!isdigit(weather[i].date[j])){
+                    printf("Error: date is char\n");
+                    exit(EXIT_FAILURE);
+                }
+            }
             printf("Enter month: ");
             getchar();
             fflush(stdin);
@@ -121,13 +132,25 @@ void addRecord(FILE* csv, const char* csvFileName){
             getchar();
             fflush(stdin);
             scanf("%[^\r\n]", weather[i+i].temperature);
+            for(int j = 0; j < strlen(weather[i+i].temperature); j++){
+                if(!isdigit(weather[i+i].temperature[j])){
+                    printf("Error: temperature is char\n");
+                    exit(EXIT_FAILURE);
+                }
+            }
             printf("Enter maximal temperature: ");
             getchar();
             fflush(stdin);
             scanf("%[^\r\n]", weather[i+i+1].temperature);
+            for(int j = 0; j < strlen(weather[i+i+1].temperature); j++){
+                if(!isdigit(weather[i+i+1].temperature[j])){
+                    printf("Error: temperature is char\n");
+                    exit(EXIT_FAILURE);
+                }
+            }
 
             fprintf(csv, "%s,%s,%s,%s,%s°,%s°\n", weather[i].weekDay, weather[i].date,
-                    weather[i].month, weather[i].label, weather[i+i].temperature, weather[i+i+1].temperature);
+                weather[i].month, weather[i].label, weather[i+i].temperature, weather[i+i+1].temperature);
 
             printf("Changes were saved successfully\n");
         }
@@ -151,7 +174,7 @@ void addRecordInPosition(FILE* csv, const char* csvFileName){
     if((csv = fopen(csvFileName, "r+")) != NULL){  
         fseek(csv, 0L, SEEK_END);
         bytes = ftell(csv);
-        fseek(csv, 0L, SEEK_SET);
+        fseek(csv, size, SEEK_SET);
 
         temp = (char*)calloc(BUFF_SIZE, sizeof(char));
         oldFileCopy = (char*)calloc(bytes, sizeof(char));
@@ -172,8 +195,10 @@ void addRecordInPosition(FILE* csv, const char* csvFileName){
 
         printf("Enter the record position to enter new data: ");
         scanf("%ld", &num);
-
         modi = num;
+        //num -= 2;
+
+        
 
         if(num == 0){
             printf("Error: you can't' add new data to main rows\n");
@@ -214,6 +239,12 @@ void addRecordInPosition(FILE* csv, const char* csvFileName){
                                 printf("Enter date: ");
                                 getchar();
                                 scanf("%[^\n]", weather[i].date);
+                                for(int j = 0; j < strlen(weather[i].date); j++){
+                                    if(!isdigit(weather[i].date[j])){
+                                        printf("Error: date is char\n");
+                                        exit(EXIT_FAILURE);
+                                    }
+                                }
                                 newStringSize += strlen(weather[i].date);
                                 printf("Enter month: ");
                                 getchar();
@@ -226,10 +257,22 @@ void addRecordInPosition(FILE* csv, const char* csvFileName){
                                 printf("Enter minimal temperature: ");
                                 getchar();
                                 scanf("%[^\n]", weather[i+i].temperature);
+                                for(int j = 0; j < strlen(weather[i+i].temperature); j++){
+                                    if(!isdigit(weather[i+i].temperature[j])){
+                                        printf("Error: temperature is char\n");
+                                        exit(EXIT_FAILURE);
+                                    }
+                                }
                                 newStringSize += strlen(weather[i+i].temperature);
                                 printf("Enter maximal temperature: ");
                                 getchar();
                                 scanf("%[^\n]", weather[i+i+1].temperature);
+                                for(int j = 0; j < strlen(weather[i+i+1].temperature); j++){
+                                    if(!isdigit(weather[i+i+1].temperature[j])){
+                                        printf("Error: temperature is char\n");
+                                        exit(EXIT_FAILURE);
+                                    }
+                                }
                                 newStringSize += strlen(weather[i+i+1].temperature);
 
                                 newString = (char*)calloc(newStringSize, sizeof(char));
