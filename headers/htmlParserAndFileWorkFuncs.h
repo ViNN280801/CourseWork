@@ -65,20 +65,26 @@ char* readDataFromCSV(FILE* csv, const char* csvFileName){
 
         copy = (char*)calloc(fileSize, sizeof(char));
 
-        for(int i = 0; i < fileSize; i++){
-            copy[i] = fgetc(csv);
+        if(copy != NULL){
+            for(int i = 0; i < fileSize; i++){
+                copy[i] = fgetc(csv);
 
-            if(copy[i] == '\0')
-                copy[i] = '.';
+                if(copy[i] == '\0')
+                    copy[i] = '.';
+            }
+
+            for(int i = 0; i < fileSize; i++){
+                if(copy[i] == ',')
+                    copy[i] = '\t';
+            }
+
+            return copy;
+            free(copy);
         }
-
-        for(int i = 0; i < fileSize; i++){
-            if(copy[i] == ',')
-                copy[i] = '\t';
+        else{
+            printf("Error: calloc returns NULL\n");
+            exit(EXIT_FAILURE);
         }
-
-        return copy;
-        free(copy);
     }
     else{
         printf("Error: Can't read file\n");
@@ -350,6 +356,7 @@ void deleteRecord(FILE* csv, const char* csvFileName){
     int deleteLine = 0;
     char* buf = NULL;
     int counter = 0, newSize = 0, newSize2 = 0;
+    long bufSize = 0L;
 
     printf("Enter line which you want to delete: ");
     scanf("%d", &deleteLine);
@@ -385,9 +392,9 @@ void deleteRecord(FILE* csv, const char* csvFileName){
             fputc(fileCopy[i], csv);
         }
 
-        fseek(csv, newSize2 - 1, SEEK_SET);
+        fseek(csv, newSize2, SEEK_SET);
         fputc('\0', csv);
-
+       
         printf("Data deleted successfully\n");
     }
     else{

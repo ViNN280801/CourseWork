@@ -98,7 +98,7 @@ void showMenu(){
                             printf("Error: Can't read file\n");
                         }
                         fclose(csv);
-
+                        goto choosing;
                         break;
                     case 3:
                         system("clear");
@@ -112,21 +112,23 @@ void showMenu(){
                         break;
                     case 5:
                         system("clear");
+                        addRecordInPosition(csv, csvFileName);
                         modifiedRecord(csv, csvFileName);
                         goto choosing;
                         break;
                     case 6:
                         system("clear");
                         deleteRecord(csv, csvFileName);
+                        goto choosing;
                         break;
                     case 7:
                         system("clear");
                         encodeFile();
+                        goto choosing;
                         break;
                     case 8:
                         system("clear");
                         exit(EXIT_SUCCESS);
-                        goto choosing;
                         break;
                     default:
                         system("clear");
