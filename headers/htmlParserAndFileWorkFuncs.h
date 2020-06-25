@@ -7,7 +7,7 @@
 #include<sys/stat.h>
 #include<gumbo.h>
 
-#define BUFF_SIZE 256
+#define BUFF_SIZE 256 
 
 struct sinoptik{
     char* weekDay;
